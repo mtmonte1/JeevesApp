@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24D70" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="AttachmentEntity" representedClassName="AttachmentEntity" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="filename" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="String" defaultValueString="&quot;image&quot;"/>
+        <attribute name="url" optional="YES" attributeType="URI"/>
+        <relationship name="task" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TaskEntity" inverseName="attachments" inverseEntity="TaskEntity"/>
+    </entity>
+    <entity name="BoardEntity" representedClassName="BoardEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="columns" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ColumnEntity" inverseName="board" inverseEntity="ColumnEntity"/>
+    </entity>
+    <entity name="ColumnEntity" representedClassName="ColumnEntity" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="board" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BoardEntity" inverseName="columns" inverseEntity="BoardEntity"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskEntity" inverseName="kanbanColumn" inverseEntity="TaskEntity"/>
+    </entity>
+    <entity name="CommandEntity" representedClassName="CommandEntity" syncable="YES">
+        <attribute name="command" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="successful" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+    <entity name="SessionMetadataEntity" representedClassName="SessionMetadataEntity" syncable="YES">
+        <attribute name="deepFocus" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="muted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="personalityFrequency" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="personalityProactivity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="personalityTone" optional="YES" attributeType="String"/>
+        <attribute name="savedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="timerRemainingTime" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timerSpeedMultiplier" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="timerStatus" optional="YES" attributeType="String"/>
+        <attribute name="version" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="SummaryEntity" representedClassName="SummaryEntity" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="duration" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="notes" optional="YES" attributeType="String"/>
+        <relationship name="completedTasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskEntity" inverseName="summary" inverseEntity="TaskEntity"/>
+    </entity>
+    <entity name="TaskEntity" representedClassName="TaskEntity" syncable="YES">
+        <attribute name="column" optional="YES" attributeType="String"/>
+        <attribute name="completed" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="taskDescription" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="attachments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AttachmentEntity" inverseName="task" inverseEntity="AttachmentEntity"/>
+        <relationship name="kanbanColumn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ColumnEntity" inverseName="tasks" inverseEntity="ColumnEntity"/>
+        <relationship name="summary" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SummaryEntity" inverseName="completedTasks" inverseEntity="SummaryEntity"/>
+    </entity>
+</model>
